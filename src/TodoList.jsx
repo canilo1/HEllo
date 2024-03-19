@@ -8,7 +8,7 @@ function TodoList() {
     <div>
       <ul>
         {todoList.map(todo => (
-            <TodoListItem  key = {todo}/>
+         <TodoListItem  key = {todo}/>
         ))}
       </ul>
     </div>
