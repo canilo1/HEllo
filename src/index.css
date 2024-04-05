@@ -45,9 +45,19 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+ 
 }
 button:hover {
   border-color: #646cff;
+
+}
+#Pirority{
+
+}
+#TodoList{
+  border-radius: 1px;
+  border-color: red;
+
 }
 button:focus,
 button:focus-visible {

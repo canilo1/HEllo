@@ -1,9 +1,12 @@
 import React from "react";
 
 function TodoListItem({ todo }) {
+  console.log("this is todo", todo)
+  
   return (
     <>
-      <li>{todo.title}</li>
+      <li id = "TodoList">{todo.title}</li>
+      <button id="Pirority">Pirority??</button>
     </>
   );
 }
