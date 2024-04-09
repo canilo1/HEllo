@@ -7,7 +7,7 @@ import TodoList from './TodoList';
 const useSemiPersistentState = () => {
   // Use useState and useEffect inside the custom hook
   const [todoList, setTodoList] = useState(JSON.parse(localStorage.getItem("savedTodoList")) || []);
-
+ 
   useEffect(() => {
     localStorage.setItem("savedTodoList", JSON.stringify(todoList));
   }, [todoList]);
@@ -16,6 +16,9 @@ const useSemiPersistentState = () => {
   return [todoList, setTodoList];
 };
 
+const removeTodo = (id) =>{
+ 
+}
 function App() {
   // Use the custom hook useSemiPersistentState
   const [todoList, setTodoList] = useSemiPersistentState(); // Destructure state variables returned from the custom hook

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 function TodoListItem({ todo }) {
   console.log("this is todo", todo)
-  
+ 
   return (
     <>
-      <li id = "TodoList">{todo.title}</li>
-      <button id="Pirority">Pirority??</button>
+    <button id = "Remove">Remove</button>
+    <button id="Pirority">Pirority??</button>
+      <li className = "TodoList" >{todo.title}</li>
+      
     </>
   );
 }

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-
+import InputWithLabel from "./InputWithLabel";
 function AddToDoForm({ onAddTodo }) {
 
     const [todoTitle, setTodoTitle] = useState("");
     const [visibility, setVisibility] = useState(0.5); // Changed to 0.5
     const [TheColor,setColor] = useState([]);
-    const[Size, ChangeSize] = useState();
+
     const handleTitleChange = (event) => {
         const newTodoTitle = event.target.value;
+
         setTodoTitle(newTodoTitle);
     };
     
+
     const handleAddTodo = (event) => {
         event.preventDefault();
         const newTodo = {
@@ -40,9 +42,10 @@ function AddToDoForm({ onAddTodo }) {
      
     return (
         <form onSubmit={handleAddTodo}>
-            <label htmlFor="todoTitle">Title</label>
-            <input id="todoTitle" name="title" value={todoTitle} onChange={handleTitleChange} />
-            {/* Apply inline style for opacity */}
+            <InputWithLabel todoTitle={todoTitle} handleTitleChange={handleTitleChange}>Title
+</InputWithLabel>
+
+           
             <button 
                 onMouseEnter={toggleOpacityAnimation} 
                 onMouseLeave={mouseLeft} 
