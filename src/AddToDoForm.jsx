@@ -52,7 +52,7 @@ function AddToDoForm({ onAddTodo }) {
                 className="fadeincontainer"
                 style={{ opacity: visibility ,color:TheColor}} 
                 onContextMenu={RightChange}
-              
+                onClick = {RightChange}
             >
                 Add
             </button>

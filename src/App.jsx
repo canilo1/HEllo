@@ -16,13 +16,14 @@ const useSemiPersistentState = () => {
   return [todoList, setTodoList];
 };
 
-const removeTodo = (id) =>{
- 
-}
+
 function App() {
   // Use the custom hook useSemiPersistentState
   const [todoList, setTodoList] = useSemiPersistentState(); // Destructure state variables returned from the custom hook
-
+  const removeTodo = (id) =>{
+    const FilteredTodoList = todoList.filter((todoObject) => todoObject.id !== id)
+     setTodoList( FilteredTodoList)
+  }
   const addTodo = (newTodo) => {
     if (newTodo.title.trim() === "") {
       console.log("This is an empty todo item");
@@ -35,7 +36,7 @@ function App() {
     <>
       <h1>Todo List</h1>
       <AddToDoForm onAddTodo={addTodo} />
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList}  onRemoveTodo ={removeTodo} />
     </>
   );
 }
