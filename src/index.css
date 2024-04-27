@@ -11,6 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ 
 }
 
 a {
@@ -57,7 +58,7 @@ button:hover {
 #TodoList{
   border-radius: 1px;
   border-color: red;
-
+  list-style: none;
 }
 button:focus,
 button:focus-visible {

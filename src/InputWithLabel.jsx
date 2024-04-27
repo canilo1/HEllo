@@ -6,7 +6,7 @@ function InputWithLabel(props){
       inputRef.current.focus();
     });
 
-    console.log("This is the children",props.children)
+  
     return(
         <>
          <label htmlFor="todoTitle">{props.children}</label>

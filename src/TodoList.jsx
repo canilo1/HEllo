@@ -2,7 +2,7 @@ import React from 'react';
 import TodoListItem from './TodoListItem';
 
 function TodoList({ todoList, onRemoveTodo}) {
- console.log("This is the removefunction",onRemoveTodo)
+
   // console.log("these are the props for todoList", todoList);
   return (
     <div>
