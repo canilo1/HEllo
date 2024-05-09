@@ -1,18 +1,14 @@
-import React from 'react';
+import React from "react";
 
-const todoList = [{ id: 1, title: "Complete assignment" }];
-
-function TodoList() {
+function TodoListItem({ todo, onRemoveTodo }) {
   return (
-    <div>
-      <ul>
-        {todoList.map(todo => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <li className="TodoList">{todo.title}</li>
+      <button id="Remove" onClick={() => onRemoveTodo(todo.id)}>
+        Remove
+      </button>
+    </>
   );
 }
 
-export default TodoList;
-
+export default TodoListItem;
