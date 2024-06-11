@@ -1,13 +1,13 @@
 import React from "react";
-
+import styles from './TodoListItem.module.css';
 function TodoListItem({ todo, onRemoveTodo }) {
   return (
-    <>
-      <li className="TodoList">{todo.title}</li>
+    <div className={styles.todoItem}>
+      <li className={styles.todoText}>{todo.title}</li> 
       <button id="Remove" onClick={() => onRemoveTodo(todo.id)}>
         Remove
       </button>
-    </>
+    </div>
   );
 }
 
