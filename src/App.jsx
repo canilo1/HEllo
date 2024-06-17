@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import AddToDoForm from './AddToDoForm';
-import TodoList from './TodoList';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import styles from './TodoListItem.module.css';
+import AddToDoForm from './components/AddToDoForm'
+import TodoList from './components/TodoList';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import styles from './components/TodoListItem.module.css'
+import PropTypes from 'prop-types'; // ES6 import
 
-// Define the useMousePosition hook outside the App component
 const useMousePosition = () => {
   const [mousePosition, setMousePosition] = React.useState({ x: null, y: null });
 
