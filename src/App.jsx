@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import AddToDoForm from './components/AddToDoForm'
+import AddToDoForm from './components/AddToDoForm';
 import TodoList from './components/TodoList';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import styles from './components/TodoListItem.module.css'
-import PropTypes from 'prop-types'; // ES6 import
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import styles from './components/TodoListItem.module.css';
+import PropTypes from 'prop-types';
 
 const useMousePosition = () => {
   const [mousePosition, setMousePosition] = React.useState({ x: null, y: null });
@@ -30,7 +30,7 @@ function App() {
   const [mouseDown, setMouseDown] = useState(false);
   const mousePosition = useMousePosition();
 
-  async function fetchData() {
+  function fetchData(sortOrder = 'asc') {
     const token = import.meta.env.VITE_AIRTABLE_API_TOKEN;
     const baseId = import.meta.env.VITE_AIRTABLE_BASE_ID;
     const tableName = import.meta.env.VITE_TABLE_NAME;
@@ -39,31 +39,47 @@ function App() {
       headers: { Authorization: `Bearer ${token}` }
     };
 
-    try {
-      const response = await fetch(url, options);
+    fetch(url, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Data from Airtable API:", data);
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+        // Sort the records by Title
+        data.records.sort((objectA, objectB) => {
+          const titleA = objectA.fields.title.toLowerCase();
+          const titleB = objectB.fields.title.toLowerCase();
 
-      const data = await response.json();
-      console.log("Data from Airtable API:", data);
+          if (sortOrder === 'asc') {
+            if (titleA < titleB) return -1;
+            if (titleA > titleB) return 1;
+          } else {
+            if (titleA < titleB) return 1;
+            if (titleA > titleB) return -1;
+          }
+          return 0;
+        });
 
-      const todos = data.records.map(record => ({
-        title: record.fields.title,
-        id: record.id
-      }));
-      console.log("Transformed todos:", todos);
+        const todos = data.records.map(record => ({
+          title: record.fields.title,
+          id: record.id
+        }));
+        console.log("Transformed todos:", todos);
 
-      setTodoList(todos);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error.message);
-    }
+        setTodoList(todos);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData(); // Default to ascending order
   }, []);
 
   const removeTodo = (id) => {
