@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './index.css'; // Ensure this path is correct
 import AddToDoForm from './components/AddToDoForm';
 import TodoList from './components/TodoList';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sort from './components/Sort';
-import styles from './components/TodoListItem.module.css';
 import PropTypes from 'prop-types';
 
 const useMousePosition = () => {
@@ -28,6 +27,7 @@ const useMousePosition = () => {
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filter, setFilter] = useState("");
   const [mouseDown, setMouseDown] = useState(false);
   const mousePosition = useMousePosition();
 
@@ -53,7 +53,11 @@ function App() {
         const todos = data.records
           .map(record => ({
             title: record.fields.title || 'Untitled',
-            id: record.id.toString() // Ensure id is a string
+            id: record.id.toString(),  // Ensure id is a string
+            priority: record.fields.priority || 'low',
+            tags: record.fields.tags || [],
+            dueDate: record.fields.dueDate || null,
+            isRecurring: record.fields.isRecurring || false
           }))
           .filter(todo => todo.title !== undefined);
 
@@ -68,7 +72,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetchData(); // Default to ascending order
+    fetchData();
   }, []);
 
   const removeTodo = (id) => {
@@ -84,6 +88,11 @@ function App() {
     setTodoList([...todoList, newTodo]);
   };
 
+  const updateTodo = (updatedTodo) => {
+    const updatedTodoList = todoList.map(todo => todo.id === updatedTodo.id ? updatedTodo : todo);
+    setTodoList(updatedTodoList);
+  };
+
   const handleMouseDown = () => {
     setMouseDown(true);
   };
@@ -92,20 +101,29 @@ function App() {
     setMouseDown(false);
   };
 
+  const filteredTodoList = todoList.filter(todo => todo.title.toLowerCase().includes(filter.toLowerCase()));
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={
           <>
             <h1>Todo List</h1>
+            <input
+              type="text"
+              placeholder="Filter tasks..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            />
             <AddToDoForm onAddTodo={addTodo} />
-            <Sort todoListArray={todoList} setTodoList={setTodoList} />
+            <Sort todoListArray={filteredTodoList} setTodoList={setTodoList} />
             <a href="/new">Link to new Page</a>
             {isLoading ? (<p>Loading..</p>) : (
               <div id="TodoContainer">
                 <TodoList 
-                  todoList={todoList} 
+                  todoList={filteredTodoList} 
                   onRemoveTodo={removeTodo} 
+                  onUpdateTodo={updateTodo}
                 />
                 <button onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
                   {mouseDown ? "Dragging..." : "This is the mouse, " + JSON.stringify(mousePosition)}

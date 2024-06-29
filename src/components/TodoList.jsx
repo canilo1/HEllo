@@ -2,19 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TodoListItem from './TodoListItem';
 
-function TodoList({ todoList, onRemoveTodo }) {
+function TodoList({ todoList, onRemoveTodo, onUpdateTodo }) {
   return (
-    <ul>
+    <ul className="todo-list">
       {todoList.map(todo => (
-        todo.title ? (
-          <TodoListItem
-            key={todo.id}
-            todo={todo}
-            onRemoveTodo={onRemoveTodo}
-          />
-        ) : (
-          console.warn(`Todo with id ${todo.id} is missing a title.`)
-        )
+        <TodoListItem
+          key={todo.id}
+          todo={todo}
+          onRemoveTodo={onRemoveTodo}
+          onUpdateTodo={onUpdateTodo}
+        />
       ))}
     </ul>
   );
@@ -23,11 +20,12 @@ function TodoList({ todoList, onRemoveTodo }) {
 TodoList.propTypes = {
   todoList: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       title: PropTypes.string.isRequired,
     })
   ).isRequired,
   onRemoveTodo: PropTypes.func.isRequired,
+  onUpdateTodo: PropTypes.func.isRequired,
 };
 
 export default TodoList;

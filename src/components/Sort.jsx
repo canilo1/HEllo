@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AlphabetOrder({ todoListArray }) {
+function AlphabetOrder(todoListArray) {
   const letterToNumber = {
     "A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "J": 10,
     "K": 11, "L": 12, "M": 13, "N": 14, "O": 15, "P": 16, "Q": 17, "R": 18, "S": 19,
@@ -32,13 +32,30 @@ function AlphabetOrder({ todoListArray }) {
 }
 
 function PriorityOrder(todoListArray) {
-  console.log("Priority Order");
-  return todoListArray; // Implement sorting logic and return sorted array
+  return todoListArray.sort((a, b) => {
+    if (a.priority > b.priority) {
+      return -1; // Higher priority tasks come first
+    } else if (a.priority < b.priority) {
+      return 1; // Lower priority tasks come last
+    } else {
+      return 0; // Same priority
+    }
+  });
 }
 
 function DueDateOrder(todoListArray) {
-  console.log("Due Date Order");
-  return todoListArray; // Implement sorting logic and return sorted array
+  return todoListArray.sort((a, b) => {
+    const dateA = new Date(a.dueDate);
+    const dateB = new Date(b.dueDate);
+
+    if (dateA < dateB) {
+      return -1; // Earlier due dates come first
+    } else if (dateA > dateB) {
+      return 1; // Later due dates come last
+    } else {
+      return 0; // Same due date
+    }
+  });
 }
 
 function Sort({ todoListArray, setTodoList }) {
@@ -47,13 +64,17 @@ function Sort({ todoListArray, setTodoList }) {
   function handleSortingMode(mode) {
     let sortedArray;
     if (mode === "AlphabetOrder") {
-      sortedArray = AlphabetOrder({ todoListArray });
+      sortedArray = AlphabetOrder(todoListArray);
     } else if (mode === "PriorityOrder") {
       sortedArray = PriorityOrder(todoListArray);
     } else if (mode === "DueDateOrder") {
       sortedArray = DueDateOrder(todoListArray);
     }
-    setTodoList(sortedArray);
+    setTodoList([...sortedArray]);
+  }
+
+  function removeAll() {
+    setTodoList([]);
   }
 
   const toggleIsActive = () => {
@@ -64,11 +85,12 @@ function Sort({ todoListArray, setTodoList }) {
     <>
       <button id="Sort" onClick={toggleIsActive}>Sort</button>
       {isActive && (
-        <>
+        <div>
           <button id="AlphabetOrder" onClick={() => handleSortingMode("AlphabetOrder")}>Alphabet Order</button>
           <button id="PriorityOrder" onClick={() => handleSortingMode("PriorityOrder")}>Priority Order</button>
           <button id="DueDateOrder" onClick={() => handleSortingMode("DueDateOrder")}>Due Date Order</button>
-        </>
+          <button id="RemoveAll" onClick={removeAll}>Remove All</button>
+        </div>
       )}
     </>
   );
