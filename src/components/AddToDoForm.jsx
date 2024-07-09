@@ -16,7 +16,11 @@ function AddToDoForm({ onAddTodo }) {
         event.preventDefault();
         const newTodo = {
             title: todoTitle,
-            id: Date.now()
+            id: Date.now(),
+            priority: 'low', // Default value
+            tags: [],
+            dueDate: null,
+            isRecurring: false
         };
         onAddTodo(newTodo);
         setTodoTitle('');
