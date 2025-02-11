@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import AddToDoForm from './components/AddToDoForm'
 import TodoList from './components/TodoList';
+<<<<<<< Updated upstream
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import styles from './components/TodoListItem.module.css'
 import PropTypes from 'prop-types'; // ES6 import
+=======
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Sort from './components/Sort';
+
+>>>>>>> Stashed changes
 
 const useMousePosition = () => {
   const [mousePosition, setMousePosition] = React.useState({ x: null, y: null });
